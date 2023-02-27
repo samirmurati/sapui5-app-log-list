@@ -1,0 +1,94 @@
+_schema-version: "3.2"
+ID: sapb1salesorders
+description: A Fiori application.
+version: 0.0.1
+modules:
+- name: sapb1salesorders-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: sapb1salesorders-destination-service
+    parameters:
+      content-target: true
+  - name: sapb1salesorders-repo-host
+    parameters:
+      service-key:
+        name: sapb1salesorders-repo-host-key
+  - name: sapb1salesorders-uaa
+    parameters:
+      service-key:
+        name: sapb1salesorders-uaa-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: sapb1salesorders_html_repo_host
+          ServiceInstanceName: sapb1salesorders-html5-srv
+          ServiceKeyName: sapb1salesorders-repo-host-key
+          sap.cloud.service: sapb1salesorders
+        - Authentication: OAuth2UserTokenExchange
+          Name: sapb1salesorders_uaa
+          ServiceInstanceName: sapb1salesorders-xsuaa-srv
+          ServiceKeyName: sapb1salesorders-uaa-key
+          sap.cloud.service: sapb1salesorders
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: sapb1salesorders-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: sapb1salesorders-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - sapb1salesorders.zip
+      name: sapb1salesorders
+      target-path: resources/
+- name: sapb1salesorders
+  type: html5
+  path: .
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: sapb1salesorders-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: sapb1salesorders-destination-service
+    service-plan: lite
+- name: sapb1salesorders-uaa
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: sapb1salesorders-xsuaa-srv
+    service-plan: application
+- name: sapb1salesorders-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: sapb1salesorders-html5-srv
+    service-plan: app-host
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
