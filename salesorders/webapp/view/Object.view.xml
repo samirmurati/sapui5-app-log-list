@@ -1,35 +1,80 @@
-<mvc:View
-    controllerName="sapb1.salesorders.controller.Object"
-    xmlns="sap.m"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns:semantic="sap.f.semantic">
-
-    <semantic:SemanticPage
-        id="page"
-        headerPinnable="false"
-        toggleHeaderOnTitleClick="false"
-        busy="{objectView>/busy}"
-        busyIndicatorDelay="{objectView>/delay}">
-
+<mvc:View controllerName="sapb1.salesorders.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
+    <semantic:SemanticPage id="page1" headerPinnable="false" toggleHeaderOnTitleClick="false" busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
         <semantic:titleHeading>
-            <Title
-                text="{DocNum}"
-                level="H2"/>
+            <Title text="{DocNum} - {CardName}" level="H2" />
         </semantic:titleHeading>
 
         <semantic:headerContent>
-            <ObjectNumber
-                number="{
+            <ObjectNumber number="{
                     path: 'DocTotal',
                     formatter: '.formatter.numberUnit'
-                }"
-                unit="{DocCurrency}" />
+                }" unit="{DocCurrency}" />
         </semantic:headerContent>
+         <Panel>
+                <Text text="{Address}" />
+        </Panel>
+        <semantic:content>
+         <Panel>
+                <Text text="{Address}" />
+        </Panel>
+        </semantic:content>
+        <semantic:content>
+            <Panel>
+                <Text text="{Address}" />
+            </Panel>
 
-        <semantic:sendEmailAction>
-            <semantic:SendEmailAction id="shareEmail" press=".onShareEmailPress"/>
-        </semantic:sendEmailAction>
+        <List id="list2" items="{path: 'DocumentLines', templateShareable:false}">
+		<items>
+			<StandardListItem
+				title="{ItemCode}"
+				description="{ItemDescription}"
+			/>
+		</items>
+	</List>
+            <!-- <Table id="table2" width="auto" items="{
+                    path: 'DocumentLines',
+                            parameters: {$$ownRequest: true}}" noDataText="{worklistView>/tableNoDataText}">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title id="tableHeader1" text="{worklistView>/worklistTableTitle}" level="H3" />
+                        <ToolbarSpacer />
+                        <SearchField id="searchField1" tooltip="{i18n>worklistSearchTooltip}" search=".onSearch">
+                            <layoutData>
+                                <OverflowToolbarLayoutData maxWidth="200px" priority="NeverOverflow" />
+                            </layoutData>
+                        </SearchField>
+                    </OverflowToolbar>
+                </headerToolbar>
 
+                <columns>
+                    <Column id="nameColumn1">
+                        <Text text="Item Code" id="nameColumnTitle" />
+                    </Column>
+                    <Column id="cardName1">
+                        <Text text="Item Description" id="" />
+                    </Column>
+                    <Column id="quantityNumberColumn1" hAlign="End">
+                        <Text text="Quantity" id="unitNumberColumnTitle1" />
+                    </Column>
+                    <Column id="unitNumberColumn1" hAlign="End">
+                        <Text text="Price" id="unitNumberColumnTitle2" />
+                    </Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem type="Navigation" press=".onPress">
+                        <cells>
+                            <ObjectIdentifier title="{ItemCode}" />
+                            <Text text="{ItemDescription}" />
+                            <Text text="{Quantity}" />
+                            <ObjectNumber number="{
+                                    path: 'Price',
+                                    formatter: '.formatter.numberUnit'
+                                }" unit="{Currency}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table> -->
+        </semantic:content>
     </semantic:SemanticPage>
-
 </mvc:View>

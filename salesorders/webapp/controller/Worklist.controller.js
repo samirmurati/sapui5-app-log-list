@@ -33,7 +33,8 @@ sap.ui.define([
                 tableNoDataText : this.getResourceBundle().getText("tableNoDataText")
             });
             this.setModel(oViewModel, "worklistView");
-
+            var data = this.getView()
+            console.log("DATA", data);
         },
 
         /* =========================================================== */
@@ -86,6 +87,7 @@ sap.ui.define([
 
 
         onSearch : function (oEvent) {
+            console.log("search is clicked");
             if (oEvent.getParameters().refreshButtonPressed) {
                 // Search field's 'refresh' button has been pressed.
                 // This is visible if you select any main list item.

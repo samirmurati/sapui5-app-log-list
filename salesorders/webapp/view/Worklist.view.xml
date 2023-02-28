@@ -16,6 +16,7 @@
         </semantic:titleHeading>
 
         <semantic:content>
+        <Text text="Hello there"/>
             <Table
                 id="table"
                 width="auto"
@@ -70,7 +71,7 @@
                         press=".onPress">
                         <cells>
                             <ObjectIdentifier
-                                title="{DocNum} - {CardName}"/>
+                                title="{DocNum}"/>
                             <Text text="{CardName}"/>
                             <ObjectNumber
                                 number="{

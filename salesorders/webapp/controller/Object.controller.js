@@ -18,7 +18,8 @@ sap.ui.define([
          * Called when the worklist controller is instantiated.
          * @public
          */
-        onInit : function () {
+
+        onInit : async function () {
             // Model used to manipulate control states. The chosen values make sure,
             // detail page shows busy indication immediately so there is no break in
             // between the busy indication for loading the view's meta data
@@ -26,6 +27,7 @@ sap.ui.define([
                     busy : true,
                     delay : 0
                 });
+            
             this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
             this.setModel(oViewModel, "objectView");
         },
