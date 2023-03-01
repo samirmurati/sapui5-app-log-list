@@ -99,7 +99,7 @@ sap.ui.define([
                 var sQuery = oEvent.getParameter("query");
 
                 if (sQuery && sQuery.length > 0) {
-                    aTableSearchState = [new Filter("DocNum", FilterOperator.Contains, sQuery)];
+                    aTableSearchState = [new Filter("CardName", FilterOperator.Contains, sQuery)];
                 }
                 this._applySearch(aTableSearchState);
             }
