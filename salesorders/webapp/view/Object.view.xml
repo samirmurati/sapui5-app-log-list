@@ -1,36 +1,34 @@
 <mvc:View controllerName="sapb1.salesorders.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
-    <semantic:SemanticPage id="page1" headerPinnable="false" toggleHeaderOnTitleClick="false" busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}">
+    <semantic:SemanticPage id="page1" headerPinnable="false" toggleHeaderOnTitleClick="false" busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}" showNavButton="true">
         <semantic:titleHeading>
             <Title text="{DocNum} - {CardName}" level="H2" />
         </semantic:titleHeading>
+        <semantic:titleBreadcrumbs />
 
         <semantic:headerContent>
-            <ObjectNumber number="{
+            <FlexBox alignItems="Start" justifyContent="SpaceBetween">
+                <Panel>
+                    <ObjectNumber number="{
                     path: 'DocTotal',
                     formatter: '.formatter.numberUnit'
                 }" unit="{DocCurrency}" />
+                </Panel>
+                <Panel>
+                   <Text text="{Address}" />
+                </Panel>
+            </FlexBox>
         </semantic:headerContent>
-         <Panel>
-                <Text text="{Address}" />
-        </Panel>
-        <semantic:content>
-         <Panel>
-                <Text text="{Address}" />
-        </Panel>
-        </semantic:content>
+
         <semantic:content>
             <Panel>
-                <Text text="{Address}" />
+            <content>
+                <List id="list2" items="{path: 'DocumentLines', templateShareable:false}">
+                    <items>
+                        <StandardListItem title="{ItemCode}" description="{ItemDescription}" />
+                    </items>
+                </List>
+                </content>
             </Panel>
-
-        <List id="list2" items="{path: 'DocumentLines', templateShareable:false}">
-		<items>
-			<StandardListItem
-				title="{ItemCode}"
-				description="{ItemDescription}"
-			/>
-		</items>
-	</List>
             <!-- <Table id="table2" width="auto" items="{
                     path: 'DocumentLines',
                             parameters: {$$ownRequest: true}}" noDataText="{worklistView>/tableNoDataText}">
