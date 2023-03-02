@@ -145,7 +145,7 @@ sap.ui.define([
                 var sQuery = oEvent.getParameter("query");
 
                 if (sQuery && sQuery.length > 0) {
-                    aTableSearchState = [new Filter("CardName", FilterOperator.Contains, sQuery)];
+                    aTableSearchState = [new Filter("CardName".toString(), FilterOperator.Contains, sQuery)];
                 }
                 this._applySearch(aTableSearchState);
             }
@@ -163,26 +163,34 @@ sap.ui.define([
         },
 
         onResetChanges : function () {
+            console.log("reset change");
 			this.byId("table").getBinding("items").resetChanges();
 			this._bTechnicalErrors = false; 
 			this._setUIChanges();
+            
 		},
 
         onSave : function () {
 			var fnSuccess = function () {
 				this._setBusy(false);
-				MessageToast.show(this._getText("changesSentMessage"));
+				sap.m.MessageToast.show(this._getText("changesSentMessage"));
 				this._setUIChanges(false);
 			}.bind(this);
 
 			var fnError = function (oError) {
 				this._setBusy(false);
 				this._setUIChanges(false);
-				MessageBox.error(oError.message);
+				sap.m.MessageBox.error(oError.message);
 			}.bind(this);
 
 			this._setBusy(true); // Lock UI until submitBatch is resolved.
-			this.getView().getModel().submitBatch("orderGoup").then(fnSuccess, fnError);
+            try {
+                this.getView().getModel().submitBatch("orderGoup").then(fnSuccess, fnError);
+            } catch (error) {
+                console.log(error);
+            }
+			
+            this._setUIChanges(false);
 			this._bTechnicalErrors = false; // If there were technical errors, a new save resets them.
 		},
 

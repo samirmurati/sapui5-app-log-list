@@ -63,7 +63,7 @@
                             <cells>
                                 <ObjectIdentifier title="{DocNum}" />
                                 <Text text="{CardName}" />
-                                <Input value="{Comments}" valueLiveUpdate="true" liveChange=".onInputChange" />
+                                <Input value="{Comments}" valueLiveUpdate="uetr" liveChange=".onInputChange" />
                                 <ObjectNumber number="{
                                     path: 'DocTotal',
                                     formatter: '.formatter.numberUnit'

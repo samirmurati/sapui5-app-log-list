@@ -76,6 +76,9 @@
                     "synchronizationMode": "None",
                     "operationMode": "Server",
                     "autoExpandSelect": false,
+                    "groupProperties": {
+                        "orderGoup": {"submit": "Direct"}
+                    },
                     "groupId": "$direct",
                     "earlyRequests": true
                 }
