@@ -104,9 +104,10 @@
             "routes": [ 
                 {
                     "pattern": "",
-                    "name": "worklist",
+                    "name": "Split",
                     "target": [
-                        "worklist"
+                        "worklist",
+                        "Split"
                     ]
                 },
                 {
@@ -121,6 +122,12 @@
                 "worklist": {
                     "viewName": "Worklist",
                     "viewId": "worklist",
+                    "viewLevel": 1,
+                    "title": "{i18n>worklistViewTitle}"
+                },
+                "Split": {
+                    "viewName": "SideNav",
+                    "viewId": "SideNav",
                     "viewLevel": 1,
                     "title": "{i18n>worklistViewTitle}"
                 },
