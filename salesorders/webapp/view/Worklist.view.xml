@@ -1,15 +1,36 @@
 <mvc:View controllerName="sapb1.salesorders.controller.Worklist" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic">
-    <semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false" showFooter="{worklistView>/hasUIChanges}">
-        <semantic:titleHeading>
-            <Title text="{i18n>worklistTitle}" level="H2" />
-        </semantic:titleHeading>
+    <Page>
+        <!-- <IconTabBar id="idIconTabBarFiori2" expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding">
+                        <items>
+                            <IconTabFilter text="Orders" key="info" count="{worklistView>/orderTotal}" />
+                            <IconTabFilter text="Attachments" key="attachments" count="4321" />
+                            <IconTabFilter text="Notes" key="notes" count="333" />
+                            <IconTabFilter text="People" key="people" count="34" />
+                        </items>
+                    </IconTabBar> -->
+        
+            <!-- <tnt:NavigationList id="navList" items="{/}">
+                <tnt:NavigationListItem text="Home" icon="sap-icon://home" key="worklist" />
+                <tnt:NavigationListItem text="Sales Orders" icon="sap-icon://sales-order" key="salesOrders" />
+                <tnt:NavigationListItem text="Customers" icon="sap-icon://customer" key="customers" />
+            </tnt:NavigationList> -->
+        
+        <semantic:SemanticPage id="page" headerPinnable="false" toggleHeaderOnTitleClick="false" showFooter="{worklistView>/hasUIChanges}">
+            <semantic:titleHeading>
+                <Panel>
+                    <Title text="{i18n>worklistTitle}" />
 
-        <semantic:content>
-            <Panel>
-                <Table
-                    id="table"
-                    width="auto"
-                    items="{
+                    <ToolbarSpacer />
+                    <ToolbarSpacer />
+                </Panel>
+            </semantic:titleHeading>
+
+            <semantic:content>
+                <Panel>
+                    <Table
+                        id="table"
+                        width="auto"
+                        items="{
                     path: '/Orders',
                     sorter: {
                         path: 'DocNum',
@@ -17,70 +38,71 @@
                     }, 
                     parameters: {$count: true, $$updateGroupId : 'orderGoup'}
                 }"
-                    noDataText="{worklistView>/tableNoDataText}"
-                    busyIndicatorDelay="{worklistView>/tableBusyDelay}"
-                    growing="true"
-                    growingScrollToLoad="true"
-                    updateFinished=".onUpdateFinished"
-                >
-                    <headerToolbar>
-                        <OverflowToolbar>
-                            <Title id="tableHeader" text="{worklistView>/worklistTableTitle}" level="H3" />
-                            <ToolbarSpacer />
-                            <SearchField id="searchField" tooltip="{i18n>worklistSearchTooltip}" enabled="{= !${appView>/hasUIChanges}}" search=".onSearch">
-                                <layoutData>
-                                    <OverflowToolbarLayoutData maxWidth="200px" priority="NeverOverflow" />
-                                </layoutData>
-                            </SearchField>
-                            <ToolbarSpacer />
-                            <Button id="addUserButton" icon="sap-icon://add" tooltip="{i18n>createButtonText}" press=".onCreate">
-                                <layoutData>
-                                    <OverflowToolbarLayoutData priority="NeverOverflow" />
-                                </layoutData>
-                            </Button>
-                            <Button id="refreshUsersButton" icon="sap-icon://refresh" tooltip="{i18n>refreshButtonText}" press=".onRefresh" />
-                            <Button id="sortUsersButton" icon="sap-icon://sort" enabled="{= !${appView>/hasUIChanges}}" tooltip="{i18n>sortButtonText}" press="onSort" />
-                        </OverflowToolbar>
-                    </headerToolbar>
+                        noDataText="{worklistView>/tableNoDataText}"
+                        busyIndicatorDelay="{worklistView>/tableBusyDelay}"
+                        growing="true"
+                        growingScrollToLoad="true"
+                        updateFinished=".onUpdateFinished"
+                    >
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <Title id="tableHeader" text="{worklistView>/worklistTableTitle}" level="H3" />
+                                <ToolbarSpacer />
+                                <SearchField id="searchField" tooltip="{i18n>worklistSearchTooltip}" enabled="{= !${appView>/hasUIChanges}}" search=".onSearch">
+                                    <layoutData>
+                                        <OverflowToolbarLayoutData maxWidth="200px" priority="NeverOverflow" />
+                                    </layoutData>
+                                </SearchField>
+                                <ToolbarSpacer />
+                                <Button id="addUserButton" icon="sap-icon://add" tooltip="{i18n>createButtonText}" press=".onCreate">
+                                    <layoutData>
+                                        <OverflowToolbarLayoutData priority="NeverOverflow" />
+                                    </layoutData>
+                                </Button>
+                                <Button id="refreshUsersButton" icon="sap-icon://refresh" tooltip="{i18n>refreshButtonText}" press=".onRefresh" />
+                                <Button id="sortUsersButton" icon="sap-icon://sort" enabled="{= !${appView>/hasUIChanges}}" tooltip="{i18n>sortButtonText}" press="onSort" />
+                            </OverflowToolbar>
+                        </headerToolbar>
 
-                    <columns>
-                        <Column id="nameColumn">
-                            <Text text="{i18n>tableNameColumnTitle}" id="nameColumnTitle" />
-                        </Column>
-                        <Column id="cardName">
-                            <Text text="{i18n>cardName}" id="" />
-                        </Column>
-                        <Column id="Coment">
-                            <Text text="{i18n>Comment}" id="comentcol" />
-                        </Column>
-                        <Column id="unitNumberColumn" hAlign="End">
-                            <Text text="{i18n>tableUnitNumberColumnTitle}" id="unitNumberColumnTitle" />
-                        </Column>
-                    </columns>
+                        <columns>
+                            <Column id="nameColumn">
+                                <Text text="{i18n>tableNameColumnTitle}" id="nameColumnTitle" />
+                            </Column>
+                            <Column id="cardName">
+                                <Text text="{i18n>cardName}" id="" />
+                            </Column>
+                            <Column id="Coment">
+                                <Text text="{i18n>Comment}" id="comentcol" />
+                            </Column>
+                            <Column id="unitNumberColumn" hAlign="End">
+                                <Text text="{i18n>tableUnitNumberColumnTitle}" id="unitNumberColumnTitle" />
+                            </Column>
+                        </columns>
 
-                    <items>
-                        <ColumnListItem type="Navigation" press=".onPress">
-                            <cells>
-                                <ObjectIdentifier title="{DocNum}" />
-                                <Text text="{CardName}" />
-                                <Input value="{Comments}" valueLiveUpdate="uetr" liveChange=".onInputChange" />
-                                <ObjectNumber number="{
+                        <items>
+                            <ColumnListItem type="Navigation" press=".onPress">
+                                <cells>
+                                    <ObjectIdentifier title="{DocNum}" />
+                                    <Text text="{CardName}" />
+                                    <Input value="{Comments}" valueLiveUpdate="uetr" liveChange=".onInputChange" />
+                                    <ObjectNumber number="{
                                     path: 'DocTotal',
                                     formatter: '.formatter.numberUnit'
                                 }" unit="{DocCurrency}" />
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                </Table>
-            </Panel>
-        </semantic:content>
-        <!-- Custom Footer Content-->
-        <semantic:footerCustomActions>
-            <Button id="saveButton" type="Emphasized" text="{i18n>saveButtonText}" enabled="{= ${message>/}.length === 0 &amp;&amp; ${worklistView>/cardnameEmpty} === false }" press=".onSave" />
-            <Button id="doneButton" text="{i18n>cancelButtonText}" press=".onResetChanges" />
-        </semantic:footerCustomActions>
-        <semantic:sendEmailAction>
-            <semantic:SendEmailAction id="shareEmail" press=".onShareEmailPress" />
-        </semantic:sendEmailAction>
-    </semantic:SemanticPage>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+            </semantic:content>
+            <!-- Custom Footer Content-->
+            <semantic:footerCustomActions>
+                <Button id="saveButton" type="Emphasized" text="{i18n>saveButtonText}" enabled="{= ${message>/}.length === 0 &amp;&amp; ${worklistView>/cardnameEmpty} === false }" press=".onSave" />
+                <Button id="doneButton" text="{i18n>cancelButtonText}" press=".onResetChanges" />
+            </semantic:footerCustomActions>
+            <semantic:sendEmailAction>
+                <semantic:SendEmailAction id="shareEmail" press=".onShareEmailPress" />
+            </semantic:sendEmailAction>
+        </semantic:SemanticPage>
+    </Page>
 </mvc:View>

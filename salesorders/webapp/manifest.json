@@ -101,7 +101,7 @@
                 },
                 "async": true
             },
-            "routes": [
+            "routes": [ 
                 {
                     "pattern": "",
                     "name": "worklist",

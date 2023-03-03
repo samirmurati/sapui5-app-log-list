@@ -6,7 +6,9 @@ sap.ui.define([
     "sap/ui/model/FilterOperator",
     "sap/ui/model/Sorter",
     "sap/ui/model/FilterType",
-], function (BaseController, JSONModel, formatter, Filter, FilterOperator, Sorter, FilterType) {
+    'sap/ui/core/Fragment',
+    "sap/m/MenuItem",
+], function (BaseController, JSONModel, formatter, Filter, FilterOperator, Sorter, FilterType, Fragment, MenuItem) {
     "use strict";
 
     return BaseController.extend("sapb1.salesorders.controller.Worklist", {
@@ -22,6 +24,21 @@ sap.ui.define([
          * @public
          */
         onInit: function () {
+            // var oNavList = this.byId("navList");
+			// oNavList.attachEvent("selectionChange", function(oEvent) {
+			// 	var sKey = oEvent.getParameter("selectedItem").getKey();
+			// 	switch (sKey) {
+			// 		case "home":
+			// 			MessageToast.show("Home selected");
+			// 			break;
+			// 		case "salesOrders":
+			// 			MessageToast.show("Sales Orders selected");
+			// 			break;
+			// 		case "customers":
+			// 			MessageToast.show("Customers selected");
+			// 			break;
+			// 	}
+			// });
             var oViewModel;
             var oMessageModelBinding;
             var oMessageManager = sap.ui.getCore().getMessageManager(),
@@ -34,6 +51,7 @@ sap.ui.define([
             // Model used to manipulate control states
             oViewModel = new JSONModel({
                 worklistTableTitle: this.getResourceBundle().getText("worklistTableTitle"),
+                orderTotal: this.getResourceBundle().getText("orderTotal"),
                 shareSendEmailSubject: this.getResourceBundle().getText("shareSendEmailWorklistSubject"),
                 shareSendEmailMessage: this.getResourceBundle().getText("shareSendEmailWorklistMessage", [location.href]),
                 tableNoDataText: this.getResourceBundle().getText("tableNoDataText"),
@@ -109,6 +127,7 @@ sap.ui.define([
                 sTitle = this.getResourceBundle().getText("worklistTableTitle");
             }
             this.getModel("worklistView").setProperty("/worklistTableTitle", sTitle);
+            this.getModel("worklistView").setProperty("/orderTotal", iTotalItems);
         },
 
         /**
@@ -301,6 +320,38 @@ sap.ui.define([
 		_setBusy : function (bIsBusy) {
 			var oModel = this.getView().getModel("worklistView");
 			oModel.setProperty("/busy", bIsBusy);
-		}
+		},
+
+        onPressMenu: function () {
+            var oView = this.getView(),
+                oButton = oView.byId("button");
+
+            if (!this._oMenuFragment) {
+                this._oMenuFragment = Fragment.load({
+                    id: oView.getId(),
+                    name: "sapb1.salesorders.fragment.Menu",
+                    controller: this
+                }).then(function(oMenu) {
+                    oMenu.openBy(oButton);
+                    
+                    
+                }.bind(this));
+            } else {
+               
+            }
+        },
+        onMenuAction: function(oEvent) {
+            var oItem = oEvent.getParameter("item"),
+                sItemPath = "";
+
+            while (oItem instanceof MenuItem) {
+                sItemPath = oItem.getText() + " > " + sItemPath;
+                oItem = oItem.getParent();
+            }
+
+            sItemPath = sItemPath.substr(0, sItemPath.lastIndexOf(" > "));
+
+            MessageToast.show("Action triggered on item: " + sItemPath);
+        }
     });
 });
